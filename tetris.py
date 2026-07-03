@@ -122,11 +122,18 @@ class GameEngine:
                     new_x = self._block_x - 1
                     if not self._board.check_collision(self._current_block, new_x, self._block_y):
                         self._block_x = new_x
-                # 오른쪽 화살표
                 elif key2 == b'M':  # 오른쪽
                     new_x = self._block_x + 1
                     if not self._board.check_collision(self._current_block, new_x, self._block_y):
                         self._block_x = new_x
+                elif key2 == b'P':  # 아래쪽
+                    new_y = self._block_y + 1
+                    if not self._board.check_collision(self._current_block, self._block_x, new_y):
+                        self._block_y = new_y
+                        self._last_fall_time = time.time()  # 타이머 리셋
+                    else:
+                        self._board.place_block(self._current_block, self._block_x, self._block_y)
+                        self._current_block = None
     
     def _update_game_state(self) -> None:
         """게임 상태를 업데이트합니다: 자동 낙하, 블록 고정 처리."""
